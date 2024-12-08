@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_str.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 20:58:35 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/11/11 16:19:17 by sesimsek         ###   ########.fr       */
+/*   Created: 2024/11/25 20:46:21 by sesimsek          #+#    #+#             */
+/*   Updated: 2024/11/30 19:54:58 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-t_list	*ft_lstlast(t_list *lst)
+int	ft_print_char(char c)
 {
-	int	node_count;
-	int	a;
+	return (write(1, &c, 1));
+}
 
-	if (lst == NULL)
-		return (NULL);
-	a = 0;
-	node_count = ft_lstsize(lst);
-	while (a < node_count - 1)
-	{
-		a++;
-		lst = lst -> next;
-	}
-	return (lst);
+int	ft_print_str(char *str)
+{
+	if (!str)
+		return (write(1, "(null)", 6));
+	return (write(1, str, ft_strlen(str)));
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }

@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 13:14:17 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/10/24 20:02:24 by sesimsek         ###   ########.fr       */
+/*   Created: 2024/12/07 21:18:28 by sesimsek          #+#    #+#             */
+/*   Updated: 2024/12/07 21:36:49 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	size_t	i;
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *src, int c);
+size_t	ft_strlen(const char *str);
+char	*get_next_line(int fd);
 
-	i = 0;
-	if (!dest && !src)
-		return (NULL);
-	while (i < n)
-	{
-		((unsigned char *)dest)[i] = ((const unsigned char *)src)[i];
-		i++;
-	}
-	return (dest);
-}
+
+
+
+#endif

@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 20:57:26 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/11/09 20:57:29 by sesimsek         ###   ########.fr       */
+/*   Created: 2024/11/29 19:08:00 by sesimsek          #+#    #+#             */
+/*   Updated: 2024/12/02 12:54:21 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*tmp;
+# include <stdarg.h>
+# include <unistd.h>
 
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	tmp = *lst;
-	while (tmp -> next)
-		tmp = tmp -> next;
-	tmp -> next = new;
-}
+int		ft_print_char(char c);
+int		ft_print_str(char *str);
+int		ft_convert_to_base(size_t nbr, char *base, char type);
+size_t	ft_strlen(const char *str);
+int		ft_printf(const char *format, ...);
+
+#endif
