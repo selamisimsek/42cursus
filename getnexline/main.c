@@ -32,9 +32,4 @@ int main()
 	
 	char *str = get_next_line(fd);
 	printf("%s",str);
-	str = get_next_line(fd);
-	printf("%s",str);
-	str = get_next_line(fd);
-	
-	printf("%s",str);
 }
