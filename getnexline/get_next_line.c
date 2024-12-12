@@ -6,7 +6,7 @@
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:08:21 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/12/09 21:25:49 by sesimsek         ###   ########.fr       */
+/*   Updated: 2024/12/09 21:34:56 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@ char *rwfd(int fd, char *readstr)
 	
 	str = malloc(BUFFER_SIZE + 1);
 	rb = 1;
-	while (ft_strchr(str, '\n') != NULL && rb != 0)
+	while (!ft_strchr(readstr, '\n') && rb != 0)
 	{
 		rb = read(fd,str,BUFFER_SIZE);
 		if (rb == -1)
 		{
 			free(str);
-			free(readstr);
 			return (NULL);
 		}
 		str[rb] = '\0';
@@ -37,11 +36,11 @@ char *rwfd(int fd, char *readstr)
 
 char *get_next_line(int fd)
 {
-	static char *readstr;
+	static char *readstr = "";
 	char		*returnstr;
 	
-	readstr = rwfd(fd,readstr);
-	return(readstr);
+	returnstr = rwfd(fd,readstr);
+	return(returnstr);
 }
 
 
