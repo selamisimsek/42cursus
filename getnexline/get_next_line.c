@@ -6,7 +6,7 @@
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:08:21 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/12/09 21:34:56 by sesimsek         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:16:45 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char *rwfd(int fd, char *readstr)
 	while (!ft_strchr(readstr, '\n') && rb != 0)
 	{
 		rb = read(fd,str,BUFFER_SIZE);
+		printf("%d",rb);
 		if (rb == -1)
 		{
 			free(str);
@@ -34,17 +35,38 @@ char *rwfd(int fd, char *readstr)
 	return (readstr);
 }
 
-char *get_next_line(int fd)
+char	*ifend(char *returnstr)
 {
-	static char *readstr = "";
-	char		*returnstr;
-	
-	returnstr = rwfd(fd,readstr);
-	return(returnstr);
+	char *str;
+	int i;
+
+	i = 0;
+	while (returnstr[i] != '\n' || returnstr[i] != '\0')
+		i++;
+	if (returnstr[i + 2] == '\0'&& returnstr[i + 1] == '\n')
+		str = malloc(i + 2);
+	else
+		str = malloc(i + 1);
+	i = 0;
+	while (returnstr[i])
+	{
+		str[i] = returnstr[i];
+		i++;
+	}
+	str[i] = '\0';
+	return(str);
 }
 
+char *get_next_line(int fd)
+{
+	static char *readstr;
+	char		*returnstr;
 
-
+	readstr = NULL;
+	returnstr = rwfd(fd,readstr);
+	returnstr = ifend(returnstr);
+	return(returnstr);
+}
 
 // char	*get_next_line(int fd)
 // {
@@ -52,13 +74,14 @@ char *get_next_line(int fd)
 // 	char *line;
 // 	line = malloc(1);
 // 	str = malloc(5);
-// 	while(ft_strchr(str,'\n') == NULL)
-// 	{
+// 	// while(ft_strchr(str,'\n') == NULL)
+// 	// {
 // 		int a = read(fd,str,4);
-// 		if ( a == 0)
-// 			return(NULL);
+// 		printf("%d", a);
+// 		// if ( a == 0)
+// 		// 	return(NULL);
 // 		str[a] = '\0';
 // 		line = ft_strjoin(line,str);
-// 	}
+// 	// }
 // 	return(line);	
 // }

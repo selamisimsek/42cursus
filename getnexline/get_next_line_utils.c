@@ -6,7 +6,7 @@
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 21:15:16 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/12/07 21:22:25 by sesimsek         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:23:17 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,27 @@ char	*ft_strchr(const char *src, int c)
 		return ((char *)src);
 	}
 	return (NULL);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	size_t	s1len;
+	char	*s2;
+	char	*result;
+
+	s1len = ft_strlen(s1);
+	s2 = (char *)malloc(s1len + 1);
+	if (s2 == NULL)
+		return (NULL);
+	result = s2;
+	while (*s1 != '\0')
+	{
+		*s2 = *s1;
+		s1++;
+		s2++;
+	}
+	*s2 = '\0';
+	return (result);
 }
 
 size_t	ft_strlen(const char *str)
