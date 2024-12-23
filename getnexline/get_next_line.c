@@ -6,7 +6,7 @@
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:08:21 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/12/16 16:16:45 by sesimsek         ###   ########.fr       */
+/*   Updated: 2024/12/23 20:07:54 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char *rwfd(int fd, char *readstr)
 	while (!ft_strchr(readstr, '\n') && rb != 0)
 	{
 		rb = read(fd,str,BUFFER_SIZE);
-		printf("%d",rb);
 		if (rb == -1)
 		{
 			free(str);
@@ -35,37 +34,54 @@ char *rwfd(int fd, char *readstr)
 	return (readstr);
 }
 
-char	*ifend(char *returnstr)
+char	*update_str(char *returnstr)
 {
 	char *str;
 	int i;
-
+	int j;
 	i = 0;
-	while (returnstr[i] != '\n' || returnstr[i] != '\0')
+	j = 0;
+	while (returnstr[i] != '\n' && returnstr[i])
 		i++;
-	if (returnstr[i + 2] == '\0'&& returnstr[i + 1] == '\n')
-		str = malloc(i + 2);
-	else
-		str = malloc(i + 1);
-	i = 0;
+	str = malloc(ft_strlen(returnstr) - i + 1);
 	while (returnstr[i])
-	{
-		str[i] = returnstr[i];
-		i++;
-	}
-	str[i] = '\0';
+		str[j++] = returnstr[i++];
+	str[j] = '\0';
 	return(str);
+}
+
+char	*oneline(char *str)
+{
+	char	*line;
+	int			i;
+
+	while (str[i] != '\n' && str[i])
+		i++;
+	if(str[i] == '\n')
+		line = malloc(i + 2);
+	else
+		line = malloc(i + 1);
+	i = 0;
+	while (str[i] && str[i] != '\n')
+	{
+		line[i] = str[i];
+		i++;
+		if(str[i] == '\n')
+			line[i++] = '\n';
+	}
+	line[i] = '\0';
+	return(line);
 }
 
 char *get_next_line(int fd)
 {
-	static char *readstr;
-	char		*returnstr;
+	static char *readstr = "";
+	char		*line;
 
-	readstr = NULL;
-	returnstr = rwfd(fd,readstr);
-	returnstr = ifend(returnstr);
-	return(returnstr);
+	readstr = rwfd(fd,readstr);
+	line = oneline(readstr);
+	readstr = update_str(readstr);
+	return(line);
 }
 
 // char	*get_next_line(int fd)
