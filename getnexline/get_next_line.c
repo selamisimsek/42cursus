@@ -6,116 +6,83 @@
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:08:21 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/12/25 15:07:35 by sesimsek         ###   ########.fr       */
+/*   Updated: 2024/12/27 16:01:17 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *get_line(char *str)
+char *rwfd(int fd, char *readstr)
 {
-    char    *line;
-    int     i;
-
-    if (!str[0])
-        return (NULL);
-    i = 0;
-    while (str[i] && str[i] != '\n')
-        i++;
-    line = malloc(i + 2);
-    if (!line)
-        return (NULL);
-    i = 0;
-    while (str[i] && str[i] != '\n')
-    {
-        line[i] = str[i];
-        i++;
-    }
-    if (str[i] == '\n')
-        line[i++] = '\n';
-    line[i] = '\0';
-    return (line);
+	int		rb;
+	char 	*str;
+	
+	str = malloc(BUFFER_SIZE + 1);
+	rb = 1;
+	while (!ft_strchr(readstr, '\n') && rb != 0)
+	{
+		rb = read(fd,str,BUFFER_SIZE);
+		if (rb == -1)
+			return (free(str),NULL);
+		str[rb] = '\0';
+		readstr = ft_strjoin(readstr,str);
+	}
+	free(str);
+	return (readstr);
 }
 
-char *update_str(char *str)
+char	*update_str(char *str1)
 {
-    char    *new_str;
-    int     i;
-    int     j;
-
-    i = 0;
-    while (str[i] && str[i] != '\n')
-        i++;
-    if (!str[i])
-    {
-        free(str);
-        return (NULL);
-    }
-    new_str = malloc(ft_strlen(str) - i + 1);
-    if (!new_str)
-    {
-        free(str);
-        return (NULL);
-    }
-    i++;
-    j = 0;
-    while (str[i])
-        new_str[j++] = str[i++];
-    new_str[j] = '\0';
-    free(str);
-    return (new_str);
+	char *str;
+	int i;
+	int j;
+	i = 0;
+	j = 0;
+	while (str1[i] != '\n' && str1[i])
+		i++;
+	str = malloc(ft_strlen(str1) - i + 1);
+	i++;
+	while (str1[i])
+		str[j++] = str1[i++];
+	str[j] = '\0';
+	return(str);
 }
 
-char *read_file(int fd, char *str)
+char	*oneline(char *str)
 {
-    char    *buff;
-    int     read_bytes;
+	char	*line;
+	int			i;
 
-    buff = malloc(BUFFER_SIZE + 1);
-    if (!buff)
-        return (NULL);
-    read_bytes = 1;
-    while (!ft_strchr(str, '\n') && read_bytes != 0)
-    {
-        read_bytes = read(fd, buff, BUFFER_SIZE);
-        if (read_bytes == -1)
-        {
-            free(buff);
-            free(str);
-            return (NULL);
-        }
-        buff[read_bytes] = '\0';
-        str = ft_strjoin(str, buff);
-        if (!str)
-        {
-            free(buff);
-            return (NULL);
-        }
-    }
-    free(buff);
-    return (str);
+	i = 0;
+	while (str[i] != '\n' && str[i])
+		i++;
+	if(str[i] == '\n')
+		line = malloc(i + 2);
+	else
+		line = malloc(i + 1);
+	i = 0;
+	while (str[i] && str[i] != '\n')
+	{
+		line[i] = str[i];
+		i++;
+	}
+	if (str[i] == '\n')
+		line[i++] = '\n';
+	line[i] = '\0';
+	return(line);
 }
 
 char *get_next_line(int fd)
 {
-    static char *str;
-    char        *line;
+	static char *readstr;
+	char		*line;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return (NULL);
-    if (!str)
-    {
-        str = malloc(1);
-        if (!str)
-            return (NULL);
-        str[0] = '\0';
-    }
-    str = read_file(fd, str);
-    if (!str)
-        return (NULL);
-    line = get_line(str);
-    str = update_str(str);
-    return (line);
+	if (!readstr)
+		readstr = "";
+	readstr = rwfd(fd,readstr);
+	line = oneline(readstr);
+	readstr = update_str(readstr);
+	return(line);
 }
 
 // char	*get_next_line(int fd)
@@ -124,14 +91,15 @@ char *get_next_line(int fd)
 // 	char *line;
 // 	line = malloc(1);
 // 	str = malloc(5);
-// 	// while(ft_strchr(str,'\n') == NULL)
-// 	// {
-// 		int a = read(fd,str,4);
-// 		printf("%d", a);
-// 		// if ( a == 0)
-// 		// 	return(NULL);
+// 	int a = 1;
+// 	 while(a != 0)
+// 	{
+// 		a = read(fd,str,4);
+// 		// printf("%d", a);
+// 		if ( a == 0)
+// 			return(NULL);
 // 		str[a] = '\0';
 // 		line = ft_strjoin(line,str);
-// 	// }
+// 	}
 // 	return(line);	
 // }
