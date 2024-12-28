@@ -6,7 +6,7 @@
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:08:21 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/12/27 21:13:31 by sesimsek         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:26:47 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char	*get_next_line(int fd)
 	static char	*readstr;
 	char		*line;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
 	if (!readstr)
 		readstr = ft_strdup("");
 	readstr = rwfd(fd, readstr);

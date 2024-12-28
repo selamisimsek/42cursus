@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sesimsek <sesimsek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 17:08:21 by sesimsek          #+#    #+#             */
-/*   Updated: 2024/12/27 21:13:31 by sesimsek         ###   ########.fr       */
+/*   Created: 2024/12/28 17:29:24 by sesimsek          #+#    #+#             */
+/*   Updated: 2024/12/28 17:31:35 by sesimsek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*rwfd(int fd, char *readstr)
 {
@@ -92,15 +92,17 @@ char	*oneline(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*readstr;
+	static char	*readstr[1024];
 	char		*line;
 
-	if (!readstr)
-		readstr = ft_strdup("");
-	readstr = rwfd(fd, readstr);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	if (!readstr[fd])
+		*readstr = ft_strdup("");
+	readstr[fd] = rwfd(fd, readstr[fd]);
 	if (!readstr)
 		return (NULL);
-	line = oneline(readstr);
-	readstr = update_str(readstr);
+	line = oneline(readstr[fd]);
+	readstr[fd] = update_str(readstr[fd]);
 	return (line);
 }
