@@ -98,9 +98,9 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	if (!readstr[fd])
-		*readstr = ft_strdup("");
+		readstr[fd] = ft_strdup("");
 	readstr[fd] = rwfd(fd, readstr[fd]);
-	if (!readstr)
+	if (!readstr[fd])
 		return (NULL);
 	line = oneline(readstr[fd]);
 	readstr[fd] = update_str(readstr[fd]);
